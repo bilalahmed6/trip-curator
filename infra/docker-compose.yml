@@ -1,15 +1,26 @@
-version: '3.8'
 services:
   backend:
-    build: ../backend
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    volumes:
+      - ../backend:/app         # host backend -> container /app
     ports:
       - "8000:8000"
-    volumes:
-      - ../backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
 
   frontend:
-    build: ../frontend
-    ports:
-      - "3000:3000"
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
     volumes:
-      - ../frontend:/app
+      - ../frontend/app:/app    # host frontend/app -> container /app (so /app/app.py exists)
+    ports:
+      - "7860:7860"
+    environment:
+      - PORT=7860
+    depends_on:
+      - backend
+
