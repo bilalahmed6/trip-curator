@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /app
+
+# Copy app folder (contains app.py and requirements.txt)
+COPY app/ /app/
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends build-essential gcc ffmpeg libsndfile1 libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 libjpeg-dev zlib1g-dev libfreetype6-dev pkg-config \
+ && python -m pip install --upgrade pip setuptools wheel \
+ && if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi \
+ && apt-get purge -y --auto-remove build-essential gcc pkg-config \
+ && rm -rf /var/lib/apt/lists/* /root/.cache/pip
+
+ENV PORT=7860
+EXPOSE 7860
+CMD ["python", "app.py"]
+
+
