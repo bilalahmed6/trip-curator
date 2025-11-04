@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+env/
+venv/
+.venv/
+*.env
+
+# Node
+node_modules/
+build/
+.next/
+
+# Docker
+*.log
+.env.local
+docker-compose.override.yml
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Chroma DB files (if local)
+chroma_db/
+
+# HuggingFace / torch cache
+.cache/
+~/.cache/huggingface/
+~/.cache/torch/
