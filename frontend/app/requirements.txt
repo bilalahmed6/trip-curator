@@ -1,2 +1,3 @@
 gradio>=3.30
-requests
+requests>=2.28
+
