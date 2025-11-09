@@ -2,3 +2,10 @@ fastapi
 uvicorn[standard]
 pydantic
 pytest
+huggingface_hub
+transformers  
+httpx
+dotenv
+tenacity
+tiktoken
+typing
