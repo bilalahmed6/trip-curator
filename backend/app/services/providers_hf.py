@@ -1,6 +1,7 @@
 from app.services.provider_interface import BaseLLMProvider
 from huggingface_hub import InferenceClient
 from dotenv import load_dotenv
+from app.services.token_utils import count_tokens
 import os
 
 from typing import List, Dict, Any, Optional
@@ -48,6 +49,10 @@ class HuggingFaceProvider(BaseLLMProvider):
 
     @_retry
     def generate_response(self, prompt: str, max_tokens: int = 256, temperature: float = 0.7, **kwargs) -> str:
+        token_count = count_tokens(prompt)
+        if token_count + max_tokens > 4096:
+            max_tokens = 4000-token_count
+            # raise ValueError(f"Prompt too long: {token_count} tokens + {max_tokens} max_tokens exceeds 4096 limit.")
         return self.client.text_generation(prompt, max_new_tokens=max_tokens, temperature=temperature)
     
     def generate_plan(self, prompt: str) -> dict:
@@ -65,10 +70,10 @@ class HuggingFaceProvider(BaseLLMProvider):
             return result[0]
         return result
     
-    def token_count(self, text: str) -> int:
-        try:
-            import tiktoken
-            enc = tiktoken.encoding_for_model("gpt2")
-            return len(enc.encode(text))
-        except Exception:
-            return len(text)//4
+    # def token_count(self, text: str) -> int:
+    #     try:
+    #         import tiktoken
+    #         enc = tiktoken.encoding_for_model("gpt2")
+    #         return len(enc.encode(text))
+    #     except Exception:
+    #         return len(text)//4
