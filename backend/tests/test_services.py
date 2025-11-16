@@ -28,5 +28,18 @@ def test_generate_plan():
         assert "items" in day_plan
         assert isinstance(day_plan["items"], list)  
 
+def test_allow_requests():
+    from app.utils.rate_limiter import allow_request
+    user_key = "test_user"
+    # Allow up to 5 requests
+    for _ in range(5):
+        assert allow_request(user_key) == True
+    # 6th request should be blocked
+    assert allow_request(user_key) == False
+
+
+
+
+
 
 

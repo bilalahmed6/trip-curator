@@ -2,10 +2,15 @@ fastapi
 uvicorn[standard]
 pydantic
 pytest
-huggingface_hub
+# huggingface_hub
 transformers  
 httpx
 dotenv
 tenacity
 tiktoken
 typing
+huggingface-hub
+# tenacity
+tiktoken
+python-dotenv
+
