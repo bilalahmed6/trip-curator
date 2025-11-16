@@ -29,4 +29,5 @@ chroma_db/
 .cache/
 ~/.cache/huggingface/
 ~/.cache/torch/
+.env.example
 
